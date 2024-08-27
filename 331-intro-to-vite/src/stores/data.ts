@@ -1,10 +1,20 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
 
-// 定义数据存储
+interface ListItem {
+  name: string;
+  ranking: number;
+}
+
+interface Country {
+  name: string;
+  info: string;
+  list: ListItem[];
+  comment?: string[];
+}
+
 export const useDataStore = defineStore('data', () => {
-  // 初始化数据
-  const data = ref([
+  const data = ref<Country[]>([
     {
       name: "China",
       info: "China,[i] officially the People's Republic of China (PRC),[j] is a country in East Asia.",
@@ -40,14 +50,12 @@ export const useDataStore = defineStore('data', () => {
         { name: "Shooting", ranking: 15 }
       ],
       comment: ["Fierce!"]
-    }
+    },
   ]);
 
-  // 添加评论的函数
-  function addComment(Country: string, text: string) { // 为参数显式声明类型
+  function addComment(Country: string, text: string): void {
     const countryObj = data.value.find(item => item.name === Country);
-
-    if (countryObj !== undefined) { // 检查是否为 undefined
+    if (countryObj) {
       if (!countryObj.comment) {
         countryObj.comment = [];
       }
@@ -57,8 +65,7 @@ export const useDataStore = defineStore('data', () => {
     }
   }
 
-  // 添加国家的函数
-  function addCountry(obj: { name: string; info: string; list: { name: string; ranking: number }[]; comment?: string[] }) { // 为参数显式声明类型
+  function addCountry(obj: Country): void {
     data.value.push(obj);
   }
 
