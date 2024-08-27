@@ -87,14 +87,23 @@ export const useDataStore = defineStore('data', () => {
     
   ])
 
-  function addComment(Country, text) {
-    const countryObj = data.value.find(item => item.name === Country)
-    countryObj.comment.push(text)
+ function addComment(Country: string, text: string) {
+  const countryObj = data.value.find(item => item.name === Country);
+  if (countryObj) {
+    
+    if (!countryObj.comment) {
+    
+      countryObj.comment = [];
+    }
+    countryObj.comment.push(text);
+  } else {
+    console.error(`Country ${Country} not found.`);
   }
+}
 
-  function addCountry(obj) {
-    data.value.push(obj)
-  }
+function addCountry(obj: { name: string; comment?: string[] }) {
+  
+  data.value.push(obj);
+}
 
-  return { data, addComment, addCountry }
-})
+return { data, addComment, addCountry };
