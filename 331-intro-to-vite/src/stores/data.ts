@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useDataStore = defineStore('data', () => {
@@ -84,26 +84,24 @@ export const useDataStore = defineStore('data', () => {
       ],
       comment: ["Fierce!"]
     },
-    
   ])
 
- function addComment(Country: string, text: string) {
-  const countryObj = data.value.find(item => item.name === Country);
-  if (countryObj) {
-    
-    if (!countryObj.comment) {
-    
-      countryObj.comment = [];
+  function addComment(Country: string, text: string) {
+    const countryObj = data.value.find(item => item.name === Country);
+    if (countryObj) {
+      if (!countryObj.comment) {
+        countryObj.comment = [];
+      }
+      countryObj.comment.push(text);
+    } else {
+      console.error(`Country ${Country} not found.`);
     }
-    countryObj.comment.push(text);
-  } else {
-    console.error(`Country ${Country} not found.`);
   }
-}
 
-function addCountry(obj: { name: string; comment?: string[] }) {
-  
-  data.value.push(obj);
-}
+  function addCountry(obj: { name: string; info: string; list: { name: string; ranking: number }[]; comment?: string[] }) {
+    // 在函数定义中显式指定 obj 参数的类型
+    data.value.push(obj);
+  }
 
-return { data, addComment, addCountry };
+  return { data, addComment, addCountry };
+});
