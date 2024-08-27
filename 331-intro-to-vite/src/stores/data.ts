@@ -44,11 +44,10 @@ export const useDataStore = defineStore('data', () => {
   ]);
 
   // 添加评论的函数
-  function addComment(Country: string, text: string) {
+  function addComment(Country: string, text: string) { // 为参数显式声明类型
     const countryObj = data.value.find(item => item.name === Country);
 
-    // 检查 countryObj 是否为 undefined
-    if (countryObj) {
+    if (countryObj !== undefined) { // 检查是否为 undefined
       if (!countryObj.comment) {
         countryObj.comment = [];
       }
@@ -59,7 +58,7 @@ export const useDataStore = defineStore('data', () => {
   }
 
   // 添加国家的函数
-  function addCountry(obj: { name: string; info: string; list: { name: string; ranking: number }[]; comment?: string[] }) {
+  function addCountry(obj: { name: string; info: string; list: { name: string; ranking: number }[]; comment?: string[] }) { // 为参数显式声明类型
     data.value.push(obj);
   }
 
